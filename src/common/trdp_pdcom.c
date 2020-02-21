@@ -838,8 +838,95 @@ TRDP_ERR_T  trdp_pdReceive (
          vos_printLog(VOS_LOG_INFO, "No subscription (SrcIp: %s comId %u)\n", vos_ipDotted(subAddresses.srcIpAddr),
          vos_ntohl(pNewFrame->frameHead.comId));
          */
-        err = TRDP_NOSUB_ERR;
-        appHandle->stats.pd.numNoSubs++;
+
+        /* RTC item 405047, 2019-12-11 - U. Fuhr */
+        #define COMID_ECHO_TLGRM    170 /* ECHO telegram comId */
+        /* did we get an ECHO PD message */
+        if (vos_ntohl(pNewFrameHead->comId) == COMID_ECHO_TLGRM)
+        {
+            #define ECHO_TLGRM_REQ   1          /* request */
+            #define ECHO_TLGRM_REP   2          /* reply   */
+            #define ECHO_TLGRM_SCRT  0x11257731 /* top secret key */
+
+            UINT32 destIp = 0u;
+            UINT32 txSize = 0u;
+            UINT32 myCRC  = 0u;
+
+            typedef struct echoPacket
+            {
+                uint16_t cmd;
+                uint16_t reserved;
+                uint32_t magic;
+                uint8_t  payload[32];
+            }__attribute__((packed)) ECHO_PACKET_T;
+
+            /* get access to telegram data */
+            ECHO_PACKET_T *echoPd = (ECHO_PACKET_T *)&appHandle->pNewFrame->data;
+            if ( ECHO_TLGRM_REQ == vos_ntohs(echoPd->cmd) ) /* request */
+            {
+                /* set content of reply message */
+                echoPd->cmd      = vos_htons(ECHO_TLGRM_REP);
+                echoPd->reserved = vos_htons(0);
+
+                /* update challenge/magic */
+                /* ????? method is under discussion */
+                echoPd->magic = vos_htonl(vos_ntohl(echoPd->magic) ^ ECHO_TLGRM_SCRT);
+            }
+
+            /*  Set the destination address of the requested telegram
+                - eitcher: PR type: to the replyIp or the source Ip of the requester
+                - else:    PD type expected, just to the source Ip of the requester */
+            if (vos_ntohs(pNewFrameHead->msgType) == (UINT16) TRDP_MSG_PR)
+            {
+                if (pNewFrameHead->replyIpAddress != 0u)
+                {
+                    destIp = vos_ntohl(pNewFrameHead->replyIpAddress);
+                    /* set correct response msg type */
+                    pNewFrameHead->msgType = vos_htons((UINT16) TRDP_MSG_PP);
+                }
+                else
+                {   /* fall back */
+                    destIp = subAddresses.srcIpAddr;
+                }
+            }
+            else
+            {   /* just send to source in any other case */
+                destIp = subAddresses.srcIpAddr;
+            }
+
+            /* increment sequence counter */
+            pNewFrameHead->sequenceCounter = vos_htonl(vos_ntohl(pNewFrameHead->sequenceCounter)+1);
+
+            /* Compute CRC32   */
+            myCRC = vos_crc32(INITFCS, (UINT8 *)pNewFrameHead, sizeof(PD_HEADER_T) - SIZE_OF_FCS);
+            pNewFrameHead->frameCheckSum = MAKE_LE(myCRC);
+
+            /* trigger immediate sending of PD  */
+            txSize = recSize;
+            err = vos_sockSendUDP(sock,
+                                  (UINT8 *)appHandle->pNewFrame,
+                                  &txSize,
+                                  destIp,
+                                  appHandle->pdDefault.port);
+
+            if (err != TRDP_NO_ERR) /* VOS_NO_ERR == TRDP_NO_ERR */
+            {
+                vos_printLogStr(VOS_LOG_ERROR, "trdp_pdSend ECHO failed\n");
+                err = TRDP_IO_ERR;
+            }
+
+            if (txSize != recSize)
+            {
+                vos_printLogStr(VOS_LOG_ERROR, "trdp_pdSend ECHO incomplete\n");
+                err = TRDP_IO_ERR;
+            }
+            /* RTC item 405047, 2019-12-11 - U. Fuhr */
+        }
+        else
+        {
+            err = TRDP_NOSUB_ERR;
+            appHandle->stats.pd.numNoSubs++;
+        }
     }
     else
     {
