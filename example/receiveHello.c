@@ -293,7 +293,7 @@ int main (int argc, char *argv[])
          function (in it's context and thread)!
          */
         err = tlc_process(appHandle, &rfds, &rv);
-        if (err != TRDP_NO_ERR)
+        if (err != TRDP_NO_ERR && err != TRDP_BLOCK_ERR)
         {
             printf("tlc_process error\n");
             break;
