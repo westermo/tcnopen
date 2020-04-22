@@ -561,7 +561,8 @@ static TRDP_ERR_T marshallDs (
         }
     }
 
-    if (pInfo->pSrc > pInfo->pSrcEnd)
+    /* Actually detect if we exited the element loop above early */
+    if ((pInfo->pSrc > pInfo->pSrcEnd) || ((pInfo->pSrc == pInfo->pSrcEnd) && (lIndex < pDataset->numElement)))
     {
         return TRDP_MARSHALLING_ERR;
     }
@@ -782,7 +783,8 @@ static TRDP_ERR_T unmarshallDs (
         }
     }
 
-    if (pInfo->pSrc > pInfo->pSrcEnd)
+    /* Actually detect if we exited the element loop above early */
+    if ((pInfo->pSrc > pInfo->pSrcEnd) || ((pInfo->pSrc == pInfo->pSrcEnd) && (lIndex < pDataset->numElement)))
     {
         return TRDP_MARSHALLING_ERR;
     }
@@ -970,7 +972,8 @@ static TRDP_ERR_T size_unmarshall (
     }
 
 
-    if (pInfo->pSrc > pInfo->pSrcEnd)
+    /* Actually detect if we exited the element loop above early */
+    if ((pInfo->pSrc > pInfo->pSrcEnd) || ((pInfo->pSrc == pInfo->pSrcEnd) && (lIndex < pDataset->numElement)))
     {
         return TRDP_MARSHALLING_ERR;
     }
