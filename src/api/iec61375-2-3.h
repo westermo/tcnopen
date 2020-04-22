@@ -386,10 +386,10 @@
 #define TRDP_VERSION_DATA_REP_COMID         BT_VERSION_DATA_REP_COMID                        /**< alternative name           */
 
 /** Version Data request (MD)                                                                                                */
-#define BT_VERSION_DATA_REQ_COMID           165u
-#define BT_VERSION_DATA_REQ_TO              3000u                                   /**< [ms] 3s timeout                 */
-#define BT_VERSION_DATA_REQ_DS              "BT_VERSION_DATA_REQUEST"
-#define TRDP_VERSION_DATA_REQ_COMID         BT_VERSION_DATA_REQ_COMID
+#define BT_DATA_REQ_COMID                   165u
+#define BT_DATA_REQ_TO                      3000u                                   /**< [ms] 3s timeout                 */
+#define BT_DATA_REQ_DS                      "BT_VERSION_DATA_REQUEST"
+#define TRDP_DATA_REQ_COMID                 BT_DATA_REQ_COMID
 
 /** Counter Data response (MD)                                                                                                */
 #define BT_COUNTER_DATA_REP_COMID           166u
@@ -465,7 +465,6 @@
 #define TRDP_BT_VERSION_DATA_REP_DSID                   164u
 #define TRDP_BT_COUNTER_DATA_REP_DSID                   166u
 
-#define TRDP_BT_STATUS_COMID
 #define TRDP_NEST1_TEST_DSID                            990u
 #define TRDP_NEST2_TEST_DSID                            991u
 #define TRDP_NEST3_TEST_DSID                            992u
