@@ -839,7 +839,7 @@ TRDP_ERR_T   trdp_pdCheckListenSocks (
                     err = trdp_pdReceive(appHandle, appHandle->iface[iterPD->socketIdx].sock);
 
                 }
-                while (err == TRDP_NO_ERR && nonBlocking);
+                while ((err == TRDP_NOSUB_ERR) || (err == TRDP_TOPO_ERR) || (err == TRDP_NO_ERR && nonBlocking));
 
                 switch (err)
                 {
