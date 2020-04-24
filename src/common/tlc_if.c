@@ -452,6 +452,9 @@ EXT_DECL TRDP_ERR_T tlc_openSession (
 
 #endif
 
+    /*    Clear the statistics for this session */
+    trdp_initStats(pSession);
+
     ret = tlc_configSession(pSession, pMarshall, pPdDefault, pMdDefault, pProcessConfig);
     if (ret != TRDP_NO_ERR)
     {
@@ -484,9 +487,6 @@ EXT_DECL TRDP_ERR_T tlc_openSession (
     /* Initialize pointers to Null in the incomplete message structure */
     trdp_initUncompletedTCP(pSession);
 #endif
-
-    /*    Clear the statistics for this session */
-    trdp_initStats(pSession);
 
     pSession->stats.ownIpAddr       = ownIpAddr;
     pSession->stats.leaderIpAddr    = leaderIpAddr;
