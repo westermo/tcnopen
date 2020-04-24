@@ -661,7 +661,8 @@ static TRDP_ERR_T marshallDs (
 
     pInfo->pSrc = alignePtr(pInfo->pSrc, maxAlignOfDSMember(pDataset));
 
-    if (pInfo->pSrc > pInfo->pSrcEnd ) /* Maybe one alignement bejond - do not erratically issue error! */
+    /* Actually detect if we exited the element loop above early */
+    if ((pInfo->pSrc > pInfo->pSrcEnd) || ((pInfo->pSrc == pInfo->pSrcEnd) && (lIndex < pDataset->numElement)))
     {
         vos_printLogStr(VOS_LOG_WARNING, "Marshalling read beyond source area. Wrong Dataset size provided?\n");
     }
@@ -886,7 +887,8 @@ static TRDP_ERR_T unmarshallDs (
 
     pInfo->pDst = alignePtr(pInfo->pDst, maxAlignOfDSMember(pDataset));
 
-    if (pInfo->pSrc > pInfo->pSrcEnd)
+    /* Actually detect if we exited the element loop above early */
+    if ((pInfo->pSrc > pInfo->pSrcEnd) || ((pInfo->pSrc == pInfo->pSrcEnd) && (lIndex < pDataset->numElement)))
     {
         return TRDP_MARSHALLING_ERR;
     }
@@ -1078,7 +1080,8 @@ static TRDP_ERR_T size_unmarshall (
 
     pInfo->pDst = alignePtr(pDst, maxAlignOfDSMember(pDataset));
 
-    if (pInfo->pSrc > pInfo->pSrcEnd)
+    /* Actually detect if we exited the element loop above early */
+    if ((pInfo->pSrc > pInfo->pSrcEnd) || ((pInfo->pSrc == pInfo->pSrcEnd) && (lIndex < pDataset->numElement)))
     {
         return TRDP_MARSHALLING_ERR;
     }
