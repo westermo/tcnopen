@@ -495,6 +495,12 @@
 #define TRDP_DNS_REQ_DSID                               140u
 #define TRDP_DNS_REP_DSID                               141u
 
+#define TRDP_BT_STATUS_DSID                             163u
+#define TRDP_BT_DATA_REQ_DSID                           165u
+#define TRDP_BT_VERSION_DATA_REP_DSID                   164u
+#define TRDP_BT_COUNTER_DATA_REP_DSID                   166u
+
+#define TRDP_BT_STATUS_COMID
 #define TRDP_NEST1_TEST_DSID                            990u
 #define TRDP_NEST2_TEST_DSID                            991u
 #define TRDP_NEST3_TEST_DSID                            992u
