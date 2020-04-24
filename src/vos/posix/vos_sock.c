@@ -90,11 +90,7 @@
  * DEFINITIONS
  */
 
-#if defined(__APPLE__) || defined(__QNXNTO__)
-const CHAR8 *cDefaultIface = "en0";
-#else
-const CHAR8 *cDefaultIface = "eth0";
-#endif
+const CHAR8 *cDefaultIface = "br0";
 
 /* Hack for macOS and iOS */
 #if defined(__APPLE__) && !defined(SOL_IP)
