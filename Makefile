@@ -67,12 +67,12 @@ TRDP_OBJS += trdp_pdcom.o \
 		tlp_if.o \
 		tlc_if.o \
 		trdp_stats.o \
+		tau_marshall.o \
 		$(VOS_OBJS)
 
 # Optional objects for full blown TRDP usage
 TRDP_OPT_OBJS += trdp_xml.o \
 		tau_xml.o \
-		tau_marshall.o \
 		tau_dnr.o \
 		tau_tti.o \
 		tau_ctrl.o
