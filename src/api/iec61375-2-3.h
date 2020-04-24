@@ -406,6 +406,35 @@
 #define TCN_DNS_REP_DS                      "DNS_REPLY"
 #define TRDP_DNS_REPLY_COMID                TCN_DNS_REP_COMID
 
+/** BT Annex A1-A3 telegrams                                                                                            */
+/** Status telegram (PD)                                                                                                */
+#define BT_STATUS_COMID                     163u
+#define BT_STATUS_CYC                       2000u                                   /**< [ms] 2.0s                      */
+#define BT_STATUS_TO                        3000u                                   /**< [ms]3s                         */
+#define BT_STATUS_DEST_URI                  "grpAll.aVeh.lCst"
+#define BT_STATUS_DEST_IP                   "239.194.0.0"
+#define BT_STATUS_DS                        "BT_STATUS_TELEGRAM"
+#define TRDP_BT_STATUS_COMID                 BT_STATUS_COMID                        /**< alternative name           */
+
+/** Version Data response (MD)                                                                                                */
+#define BT_VERSION_DATA_REP_COMID           164u
+#define BT_VERSION_DATA_REP_TO              3000u                                   /**< [ms]3s                         */
+#define BT_VERSION_DATA_REP_DS              "BT_VERSION_DATA_REPLY"
+#define TRDP_VERSION_DATA_REP_COMID         BT_VERSION_DATA_REP_COMID                        /**< alternative name           */
+
+/** BT Data request (MD)                                                                                                */
+#define BT_DATA_REQ_COMID                   165u
+#define BT_DATA_REQ_TO                      3000u                                   /**< [ms] 3s timeout                 */
+#define BT_DATA_REQ_DS                      "BT_DATA_REQUEST"
+#define TRDP_DATA_REQ_COMID                 BT_DATA_REQ_COMID
+
+/** Counter Data response (MD)                                                                                                */
+#define BT_COUNTER_DATA_REP_COMID           166u
+#define BT_COUNTER_DATA_REP_TO              3000u                                   /**< [ms] 3s timeout                 */
+#define BT_COUNTER_DATA_REP_DS              "BT_COUNTER_DATA_REPLY"
+#define TRDP_COUNTER_DATA_REP_COMID         BT_COUNTER_DATA_REP_COMID
+/** BT Annex A1-A3 End                                                                                            */
+
 #define TRDP_TEST_COMID                     1000u
 
 /**********************************************************************************************************************/
@@ -469,6 +498,11 @@
 
 #define TRDP_DNS_REQ_DSID                               140u
 #define TRDP_DNS_REP_DSID                               141u
+
+#define TRDP_BT_STATUS_DSID                             163u
+#define TRDP_BT_DATA_REQ_DSID                           165u
+#define TRDP_BT_VERSION_DATA_REP_DSID                   164u
+#define TRDP_BT_COUNTER_DATA_REP_DSID                   166u
 
 #define TRDP_NEST1_TEST_DSID                            990u
 #define TRDP_NEST2_TEST_DSID                            991u
