@@ -482,7 +482,7 @@ EXT_DECL VOS_ERR_T vos_getInterfaces (
 
     if (getifaddrs(&pAddrs) == -1)
     {
-        char buff[VOS_MAX_ERR_STR_SIZE];
+        char buff[VOS_MAX_ERR_STR_SIZE+1];
         STRING_ERR(buff);
         vos_printLog(VOS_LOG_WARNING, "getifaddrs() failed (Err: %s)\n", buff);
     }
