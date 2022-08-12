@@ -61,7 +61,7 @@
 #define PTHREAD_MUTEX_RECURSIVE  PTHREAD_MUTEX_RECURSIVE_NP     /*lint !e652 Does Lint ignore the #ifndef ? */
 #endif
 
-const size_t    cDefaultStackSize   = 4u * PTHREAD_STACK_MIN;
+const size_t    cDefaultStackSize   = 4 * 16 * 1024;
 const UINT32    cMutextMagic        = 0x1234FEDCu;
 
 int             vosThreadInitialised = FALSE;
