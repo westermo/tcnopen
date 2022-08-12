@@ -80,20 +80,20 @@ extern void *gRefCon;
 
 /** Debug output macro with formatting options */
 #ifdef WIN32
-    #define vos_printLog(level, format, ...)                                   \
-    {if (gPDebugFunction != NULL)                                              \
-     {   char str[VOS_MAX_PRNT_STR_SIZE];                                      \
-         (void) _snprintf_s(str, sizeof(str), _TRUNCATE, format, __VA_ARGS__); \
-         vos_printLogStr(level, str);                                          \
-     }                                                                         \
+    #define vos_printLog(level, format, ...)                                     \
+    {if (gPDebugFunction != NULL)                                                \
+     {   char str[VOS_MAX_PRNT_STR_SIZE];                                        \
+         (void) _snprintf_s(str, sizeof(str), _TRUNCATE, format, ##__VA_ARGS__); \
+         vos_printLogStr(level, str);                                            \
+     }                                                                           \
     }
 #elif defined(__clang__)
-    #define vos_printLog(level, format, ...)                    \
-    {if (gPDebugFunction != NULL)                               \
-     {   char str[VOS_MAX_PRNT_STR_SIZE];                       \
-         (void)snprintf(str, sizeof(str), format, __VA_ARGS__); \
-         vos_printLogStr(level, str);                           \
-     }                                                          \
+    #define vos_printLog(level, format, ...)                      \
+    {if (gPDebugFunction != NULL)                                 \
+     {   char str[VOS_MAX_PRNT_STR_SIZE];                         \
+         (void)snprintf(str, sizeof(str), format, ##__VA_ARGS__); \
+         vos_printLogStr(level, str);                             \
+     }                                                            \
     }
 #else
     #define vos_printLog(level, format, args ...)            \
