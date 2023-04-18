@@ -39,6 +39,7 @@
 #include "semaphore.h"
 #else
 #include <time.h>
+#include <sys/time.h>
 #endif
 
 #ifdef __cplusplus
